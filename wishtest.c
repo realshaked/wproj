@@ -43,34 +43,40 @@ while (1) {
                                           }
       char *token;
       int len = strlen(input);
+      char **inputdois = &input;
+      printf("%s inputdois\n", *inputdois);
       for(int i = 0; i < len; i++)
       {
                 
-		if(&input[i] == " ")
+		if(inputdois[i] == " ")
 		{
-		 token = strsep(&input," ");	
-		}
+		 token = strsep(&input," ");
+                }
       }
-   
            char *path = "/bin", *pathe = "/usr/bin";
            int s = access(path, X_OK);
            int su = access(pathe, X_OK);
            if (s == 0 || su == 0)
       {
+       if(strcmp(*inputdois,"ls") == 0)
+       {
        rc = fork(); //cria uma cópia idêntica do processo e retorna aqui mesmo   
        if (rc == 0) 
        { // child (filho)
                char *myargv[10];
-               myargv[0] = strdup("/bin/");           
+               myargv[0] = strdup("/bin/ls");           
                myargv[1] = strdup("-l");
                myargv[3] = NULL;  // importante
        
                execv(myargv[0], myargv);
                       
        }//if rc
+       }//if command is this
      }//if access successful(possible)....
+     
               else { //parent (pai)
         rc  = (int) wait(NULL); //BLOCKS PARENT (until child done)
+        printf("wish> ");
              } 
         
                    
